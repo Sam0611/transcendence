@@ -1,0 +1,33 @@
+services:
+  nginx:
+    container_name: ngx
+    build: ./nginx
+    restart: on-failure
+    depends_on:
+      - django
+    ports:
+      - "443:443"
+    # volumes:
+    #   - website:/var/www/html
+    networks:
+      - inception
+  django:
+    container_name: django
+    build: .
+    restart: on-failure
+    # env_file: .env
+    expose:
+      - "8000"
+    # volumes:
+    #   - website:/var/www/html
+    networks:
+      - inception
+# volumes:
+#   website:
+#     driver: local
+#     driver_opts:
+#       type: 'none'
+#       o: 'bind'
+networks:
+  inception:
+    driver: bridge
